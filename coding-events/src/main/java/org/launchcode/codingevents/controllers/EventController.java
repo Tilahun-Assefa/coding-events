@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("events")
 public class EventController {
     @GetMapping
-    public String eventHandler(Model model){
+    public String displayAllEvents(Model model){
         List<String> events = new ArrayList<>();
         events.add("Code with pride");
         events.add("Strange loop");
