@@ -22,7 +22,7 @@ public class EventController {
 
     //lives at localhost:8080/events/create
     @GetMapping("create")
-    public String renderCreateEventForm(){
+    public String displayCreateEventForm(){
         return "events/create";
     }
 

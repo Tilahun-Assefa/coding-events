@@ -7,12 +7,14 @@
     <p th:unless="${events} and ${events.size()}">No Events!</p>
     <table class="table table-striped">
         <thead>
-            <tr><th>Name</th><th>Description</th></tr>
+            <tr><th>ID</th><th>Name</th><th>Description</th><th>Contact Email</th></tr>
         </thead>
         <tbody>
             <tr th:each="event:${events}">
+                <td th:text="${event.id}"></td>
                 <td th:text="${event.name}"></td>
                 <td th:text="${event.description}"></td>
+                <td th:text="${event.contactEmail}"></td>
             </tr>
         </tbody>
     </table>
