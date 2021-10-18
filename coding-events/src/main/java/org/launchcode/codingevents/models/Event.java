@@ -1,8 +1,8 @@
 package org.launchcode.codingevents.models;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class Event {
@@ -19,15 +19,30 @@ public class Event {
     @Email(message = "Invalid email. Try again.")
     private String contactEmail;
 
+    @NotBlank(message = "Location can not be blank!")
+    private String location;
+
+    @AssertTrue(message = "Attendee must register for the event")
+    private boolean registered;
+
+    @Positive(message = "Number of attendees must be one or more.")
+    private int numberOfAttendee;
+
+    @Past(message = "Registration date must be now or past")
+    private LocalDateTime registrationDate;
+
     public Event(){
         this.id=nextId;
         nextId++;
+        registrationDate= LocalDateTime.now();
     }
-    public Event(String name, String description, String contactEmail) {
+    public Event(String name, String description, String contactEmail, String location, boolean registered ) {
         this();
         this.name = name;
         this.description= description;
         this.contactEmail= contactEmail;
+        this.location= location;
+        this.registered= registered;
     }
 
     public String getName() {
@@ -56,6 +71,27 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
+    }
+
+    public int getNumberOfAttendee() {
+        return numberOfAttendee;
+    }
+
+    public void setNumberOfAttendee(int numberOfAttendee) {
+        this.numberOfAttendee = numberOfAttendee;
+    }
+
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
+    }
+
+
+    public boolean isRegistered() {
+        return registered;
     }
 
     @Override
