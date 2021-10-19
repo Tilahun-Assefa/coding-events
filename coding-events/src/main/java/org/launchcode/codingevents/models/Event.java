@@ -2,6 +2,7 @@ package org.launchcode.codingevents.models;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
@@ -73,6 +74,14 @@ public class Event {
         return id;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public void setRegistered(boolean registered) {
         this.registered = registered;
     }
@@ -85,10 +94,10 @@ public class Event {
         this.numberOfAttendee = numberOfAttendee;
     }
 
-    public LocalDateTime getRegistrationDate() {
-        return registrationDate;
+    public String getRegistrationDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        return dtf.format(registrationDate);
     }
-
 
     public boolean isRegistered() {
         return registered;
