@@ -32,18 +32,21 @@ public class Event {
     @Past(message = "Registration date must be now or past")
     private LocalDateTime registrationDate;
 
+    private EventType type;
+
     public Event(){
         this.id=nextId;
         nextId++;
         registrationDate= LocalDateTime.now();
     }
-    public Event(String name, String description, String contactEmail, String location, boolean registered ) {
+    public Event(String name, String description, String contactEmail, String location, boolean registered, EventType type ) {
         this();
         this.name = name;
         this.description= description;
         this.contactEmail= contactEmail;
         this.location= location;
         this.registered= registered;
+        this.type= type;
     }
 
     public String getName() {
@@ -97,6 +100,14 @@ public class Event {
     public String getRegistrationDate() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         return dtf.format(registrationDate);
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     public boolean isRegistered() {

@@ -24,28 +24,40 @@
             <p class="error" th:errors="${event.contactEmail}"></p>
         </div>
         <div class="form-group">
+            <label> Type
+                <select th:field="${event.type}" class="form-control">
+                    <option th:each="type : ${types}"
+                            th:value="${type}"
+                            th:text="${type.displayName}"
+                    ></option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
             <label>Location
                 <input type="text" th:field="${event.location}" class="form-control">
             </label>
             <p class="error" th:errors="${event.location}"></p>
         </div>
-        <div class="form-group">
-            <label>Is Registered
-                <input type="checkbox" th:field="${event.registered}" class="form-check-inline">
-            </label>
-            <p class="error" th:errors="${event.registered}"></p>
-        </div>
+
         <div class="form-group">
             <label>Number of Attendee
                 <input type="text" th:field="${event.numberOfAttendee}" class="form-control">
             </label>
             <p class="error" th:errors="${event.numberOfAttendee}"></p>
         </div>
-        <div class="form-group">
+        <div class="form-group" hidden>
             <label>Registration Date
                 <input type="text" th:field="${event.registrationDate}" class="form-control">
             </label>
             <p class="error" th:errors="${event.registrationDate}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Is Registered
+                <input type="checkbox" th:field="${event.registered}" class="form-check-inline">
+            </label>
+            <p class="error" th:errors="${event.registered}"></p>
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-success">
