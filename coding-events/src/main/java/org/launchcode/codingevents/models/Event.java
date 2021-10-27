@@ -1,14 +1,19 @@
 package org.launchcode.codingevents.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Event {
+    @Id
+    @GeneratedValue
     private int id;
-    private static int nextId=1;
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
@@ -29,24 +34,17 @@ public class Event {
     @Positive(message = "Number of attendees must be one or more.")
     private int numberOfAttendee;
 
-    @Past(message = "Registration date must be now or past")
-    private LocalDateTime registrationDate;
-
     private EventType type;
 
-    public Event(){
-        this.id=nextId;
-        nextId++;
-        registrationDate= LocalDateTime.now();
-    }
-    public Event(String name, String description, String contactEmail, String location, boolean registered, EventType type ) {
-        this();
+    public Event() { }
+
+    public Event(String name, String description, String contactEmail, String location, boolean registered, EventType type) {
         this.name = name;
-        this.description= description;
-        this.contactEmail= contactEmail;
-        this.location= location;
-        this.registered= registered;
-        this.type= type;
+        this.description = description;
+        this.contactEmail = contactEmail;
+        this.location = location;
+        this.registered = registered;
+        this.type = type;
     }
 
     public String getName() {
@@ -77,6 +75,10 @@ public class Event {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLocation() {
         return location;
     }
@@ -95,11 +97,6 @@ public class Event {
 
     public void setNumberOfAttendee(int numberOfAttendee) {
         this.numberOfAttendee = numberOfAttendee;
-    }
-
-    public String getRegistrationDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        return dtf.format(registrationDate);
     }
 
     public EventType getType() {
