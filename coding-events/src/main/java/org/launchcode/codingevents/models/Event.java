@@ -68,7 +68,6 @@ public class Event extends AbstractEntity {
         this.contactEmail = contactEmail;
     }
 
-
     public String getLocation() {
         return location;
     }
