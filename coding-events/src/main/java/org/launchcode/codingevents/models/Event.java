@@ -10,10 +10,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Event {
-    @Id
-    @GeneratedValue
-    private int id;
+public class Event extends AbstractEntity {
 
     @NotBlank(message = "Name is required.")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
@@ -71,13 +68,6 @@ public class Event {
         this.contactEmail = contactEmail;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getLocation() {
         return location;
@@ -116,16 +106,4 @@ public class Event {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id == event.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
