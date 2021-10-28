@@ -1,9 +1,7 @@
 package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventCategoryRepository;
-import org.launchcode.codingevents.models.Event;
 import org.launchcode.codingevents.models.EventCategory;
-import org.launchcode.codingevents.models.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,7 @@ import javax.validation.Valid;
 @RequestMapping("eventCategories")
 public class EventCategoryController {
     @Autowired
-    EventCategoryRepository eventCategoryRepository;
+    private EventCategoryRepository eventCategoryRepository;
 
     //respond for localhost:8080/eventCategories
     @GetMapping

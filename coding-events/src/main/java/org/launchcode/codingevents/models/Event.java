@@ -1,8 +1,6 @@
 package org.launchcode.codingevents.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,17 +29,20 @@ public class Event extends AbstractEntity {
     @Positive(message = "Number of attendees must be one or more.")
     private int numberOfAttendee;
 
-    private EventType type;
+    @ManyToOne
+    @JoinColumn(name = "event_category_id")
+    @NotNull(message = "Category is required")
+    private EventCategory eventCategory;
 
     public Event() { }
 
-    public Event(String name, String description, String contactEmail, String location, boolean registered, EventType type) {
+    public Event(String name, String description, String contactEmail, String location, boolean registered, EventCategory eventCategory) {
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
         this.location = location;
         this.registered = registered;
-        this.type = type;
+        this.eventCategory = eventCategory;
     }
 
     public String getName() {
@@ -88,16 +89,15 @@ public class Event extends AbstractEntity {
         this.numberOfAttendee = numberOfAttendee;
     }
 
-    public EventType getType() {
-        return type;
-    }
-
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
     public boolean isRegistered() {
         return registered;
+    }
+
+    public EventCategory getEventCategory() {
+        return eventCategory;
+    }
+    public void setEventCategory(EventCategory eventCategory) {
+        this.eventCategory = eventCategory;
     }
 
     @Override
