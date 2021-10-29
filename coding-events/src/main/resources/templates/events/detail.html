@@ -28,6 +28,10 @@
         <th>Number of Attendee</th>
         <td th:text="${event.eventDetails.numberOfAttendee}"></td>
     </tr>
+    <tr>
+        <th>Tags</th>
+        <td ><span th:each="tag:${event.tags}" th:text="${tag.getDisplayName()}"></span></td>
+    </tr>
 </table>
 </body>
 </html>

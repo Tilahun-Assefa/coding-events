@@ -2,8 +2,11 @@ package org.launchcode.codingevents.controllers;
 
 import org.launchcode.codingevents.data.EventCategoryRepository;
 import org.launchcode.codingevents.data.EventRepository;
+import org.launchcode.codingevents.data.TagRepository;
+import org.launchcode.codingevents.data.dto.EventTagDTO;
 import org.launchcode.codingevents.models.Event;
 import org.launchcode.codingevents.models.EventCategory;
+import org.launchcode.codingevents.models.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,9 @@ public class EventController {
 
     @Autowired
     private EventCategoryRepository eventCategoryRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     //respond for localhost:8080/events
     @GetMapping
@@ -50,7 +56,7 @@ public class EventController {
         return "events/create";
     }
 
-    //lives at localhost:8080/events/create but for post
+    //response of at localhost:8080/events/create for post
     @PostMapping("create")
     public String processCreateEventForm(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
         if (errors.hasErrors()) {
@@ -61,6 +67,7 @@ public class EventController {
         return "redirect:";
     }
 
+    //lives at localhost:8080/events/delete
     @GetMapping("delete")
     public String renderDeleteEventForm(Model model) {
         model.addAttribute("title", "Delete Event");
@@ -68,6 +75,7 @@ public class EventController {
         return "events/delete";
     }
 
+    //respond of localhost:8080/events/delete by post
     @PostMapping("delete")
     public String processDeleteEventsForm(@RequestParam(required = false) int[] eventIds) {
         if (eventIds != null) {
@@ -78,6 +86,7 @@ public class EventController {
         return "redirect:";
     }
 
+    //lives at localhost:8080/events/detail
     @GetMapping("detail")
     public String displayEventDetails(@RequestParam(required = false) Integer eventId, Model model) {
         Optional<Event> result = eventRepository.findById(eventId);
@@ -89,5 +98,32 @@ public class EventController {
             model.addAttribute("event", event);
         }
         return "events/detail";
+    }
+
+    //lives at localhost:8080/events/add-tag?eventId=13
+    @GetMapping("add-tag")
+    public String displayAddTagForm(@RequestParam Integer eventId, Model model){
+        Optional<Event> result = eventRepository.findById(eventId);
+        Event event= result.get();
+        model.addAttribute("title","Add Tag to: " + event.getName());
+        model.addAttribute("tags",tagRepository.findAll() );
+        EventTagDTO eventTag= new EventTagDTO();
+        eventTag.setEvent(event);
+        model.addAttribute("eventTag", eventTag);
+        return "events/add-tag.html";
+    }
+
+    @PostMapping("add-tag")
+    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTag, Errors errors, Model model){
+        if(!errors.hasErrors()){
+            Event event = eventTag.getEvent();
+            Tag tag = eventTag.getTag();
+            if(!event.getTags().contains(tag)){
+                event.addTag(tag);
+                eventRepository.save(event);
+            }
+            return "redirect:detail?eventId="+event.getId();
+        }
+        return  "redirect:add-tag";
     }
 }
