@@ -5,7 +5,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +31,16 @@ public class Event extends AbstractEntity {
     @NotNull(message = "Category is required")
     private EventCategory eventCategory;
 
+    @ManyToMany
+    private final List<Tag> tags = new ArrayList<>();
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void addTag(Tag newTag){
+        this.tags.add(newTag);
+    }
     public EventDetails getEventDetails() {
         return eventDetails;    }
 
