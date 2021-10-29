@@ -23,7 +23,6 @@ public class EventDetails extends AbstractEntity{
     @Positive(message = "Number of attendees must be one or more.")
     private int numberOfAttendee;
 
-
     @OneToOne(mappedBy = "eventDetails")
     @JoinColumn(name = "event_id")
     private Event event;

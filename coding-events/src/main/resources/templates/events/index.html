@@ -2,31 +2,19 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head th:replace="fragments::head"></head>
 <body class="container">
-    <header th:replace="fragments::header"></header>
-    <p th:unless="${events} and ${events.size()}">No Events!</p>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Contact Email</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Number of Attendee</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="event:${events}">
-                <td th:text="${event.id}"></td>
-                <td th:text="${event.name}"></td>
-                <td th:text="${event.eventDetails.description}"></td>
-                <td th:text="${event.eventDetails.contactEmail}"></td>
-                <td th:text="${event.eventCategory.name}"></td>
-                <td th:text="${event.eventDetails.location}"></td>
-                <td th:text="${event.eventDetails.numberOfAttendee}"></td>
-            </tr>
-        </tbody>
-    </table>
+<header th:replace="fragments::header"></header>
+<p th:unless="${events} and ${events.size()}">No Events!</p>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event:${events}">
+        <td ><a th:text="${event.name}" th:href="'/events/detail?eventId='+ ${event.id}"></a></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
