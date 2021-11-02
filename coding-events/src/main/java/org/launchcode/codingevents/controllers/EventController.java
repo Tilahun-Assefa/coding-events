@@ -30,22 +30,32 @@ public class EventController {
 
     //respond for localhost:8080/events
     @GetMapping
-    public String displayEvents(@RequestParam(required = false) Integer categoryId, Model model) {
-        if (categoryId == null) {
+    public String displayEvents(@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) Integer tagId, Model model) {
+        if (categoryId == null && tagId == null) {
             model.addAttribute("title", "All Events");
             model.addAttribute("events", eventRepository.findAll());
         } else {
-            Optional<EventCategory> result = eventCategoryRepository.findById(categoryId);
-            if (result.isEmpty()) {
-                model.addAttribute("title", "Invalid Category Id" + categoryId);
-            } else {
-                EventCategory category = result.get();
-                model.addAttribute("title", "Events in category: " + category.getName());
-                model.addAttribute("events", category.getEvents());
+            if (categoryId != null) {
+                Optional<EventCategory> result = eventCategoryRepository.findById(categoryId);
+                if (result.isEmpty()) {
+                    model.addAttribute("title", "Invalid Category Id" + categoryId);
+                } else {
+                    EventCategory category = result.get();
+                    model.addAttribute("title", "Events in category: " + category.getName());
+                    model.addAttribute("events", category.getEvents());
+                }
+            } else if (tagId != null) {
+                Optional<Tag> result = tagRepository.findById(tagId);
+                if (result.isEmpty()) {
+                    model.addAttribute("title", "Invalid Tag Id" + tagId);
+                } else {
+                    Tag tag = result.get();
+                    model.addAttribute("title", "Events in tag: " + tag.getName());
+                    model.addAttribute("events", tag.getEvents());
+                }
             }
         }
         return "events/index";
-
     }
 
     //lives at localhost:8080/events/create
@@ -103,28 +113,28 @@ public class EventController {
 
     //lives at localhost:8080/events/add-tag?eventId=13
     @GetMapping("add-tag")
-    public String displayAddTagForm(@RequestParam Integer eventId, Model model){
+    public String displayAddTagForm(@RequestParam Integer eventId, Model model) {
         Optional<Event> result = eventRepository.findById(eventId);
-        Event event= result.get();
-        model.addAttribute("title","Add Tag to: " + event.getName());
-        model.addAttribute("tags",tagRepository.findAll() );
-        EventTagDTO eventTag= new EventTagDTO();
+        Event event = result.get();
+        model.addAttribute("title", "Add Tag to: " + event.getName());
+        model.addAttribute("tags", tagRepository.findAll());
+        EventTagDTO eventTag = new EventTagDTO();
         eventTag.setEvent(event);
         model.addAttribute("eventTag", eventTag);
         return "events/add-tag.html";
     }
 
     @PostMapping("add-tag")
-    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTag, Errors errors, Model model){
-        if(!errors.hasErrors()){
+    public String processAddTagForm(@ModelAttribute @Valid EventTagDTO eventTag, Errors errors, Model model) {
+        if (!errors.hasErrors()) {
             Event event = eventTag.getEvent();
             Tag tag = eventTag.getTag();
-            if(!event.getTags().contains(tag)){
+            if (!event.getTags().contains(tag)) {
                 event.addTag(tag);
                 eventRepository.save(event);
             }
-            return "redirect:detail?eventId="+event.getId();
+            return "redirect:detail?eventId=" + event.getId();
         }
-        return  "redirect:add-tag";
+        return "redirect:add-tag";
     }
 }
