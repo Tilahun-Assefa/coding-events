@@ -21,7 +21,7 @@ public class EventCategoryController {
 
     //respond for localhost:8080/eventCategories
     @GetMapping
-    public String displayAllEvents(Model model){
+    public String displayAllEventCategories(Model model){
         model.addAttribute("title", "All Categories");
         model.addAttribute("categories", eventCategoryRepository.findAll());
         return "eventCategories/index";

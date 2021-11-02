@@ -45,6 +45,7 @@ public class EventController {
             }
         }
         return "events/index";
+
     }
 
     //lives at localhost:8080/events/create

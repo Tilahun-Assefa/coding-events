@@ -34,20 +34,6 @@ public class Event extends AbstractEntity {
     @ManyToMany
     private final List<Tag> tags = new ArrayList<>();
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void addTag(Tag newTag){
-        this.tags.add(newTag);
-    }
-    public EventDetails getEventDetails() {
-        return eventDetails;    }
-
-    public void setEventDetails(EventDetails eventDetails) {
-        this.eventDetails = eventDetails;
-    }
-
     public Event() {
     }
 
@@ -76,8 +62,25 @@ public class Event extends AbstractEntity {
     public EventCategory getEventCategory() {
         return eventCategory;
     }
+
     public void setEventCategory(EventCategory eventCategory) {
         this.eventCategory = eventCategory;
+    }
+
+    public void addTag(Tag newTag) {
+        this.tags.add(newTag);
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public EventDetails getEventDetails() {
+        return eventDetails;
+    }
+
+    public void setEventDetails(EventDetails eventDetails) {
+        this.eventDetails = eventDetails;
     }
 
     @Override
